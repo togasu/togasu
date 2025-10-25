@@ -26,10 +26,15 @@ jobs:
   deploy:
     needs: upload-artifact
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      # set url from the deploy step output if available
+      url: ${{ steps.deployment.outputs.page_url }}
     permissions:
       pages: write
       id-token: write
       contents: read
     steps:
       - name: Deploy to GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v4
